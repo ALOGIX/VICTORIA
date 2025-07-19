@@ -1,120 +1,175 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام حجز المنتجات</title>
     <style>
-         :root {
+        :root {
             --primary-dark: #121212;
             --secondary-dark: #1E1E1E;
             --accent-color: #BB86FC;
             --text-primary: #E1E1E1;
             --text-secondary: #B0B0B0;
+            --success-color: #4CAF50;
+            --error-color: #F44336;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Tajawal', sans-serif;
         }
-        
+
         body {
             background-color: var(--primary-dark);
             color: var(--text-primary);
             line-height: 1.6;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
-        
-        header {
-            background-color: var(--secondary-dark);
-            padding: 1.5rem 0;
-            text-align: center;
-            margin-bottom: 2rem;
-            border-radius: 10%;
-        }
-        
+
         .logo {
             font-size: 2rem;
             color: var(--accent-color);
             text-align: center;
+            margin-bottom: 2rem;
         }
-        
+
         .form-container {
             background-color: var(--secondary-dark);
             padding: 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        
+
+        .form-title {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
+
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
             color: var(--accent-color);
+            font-weight: 500;
         }
-        
+
         .form-control {
             width: 100%;
-            padding: 0.8rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            padding: 0.8rem 1rem;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
             color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s;
         }
-        
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
         .btn {
             background-color: var(--accent-color);
             color: #000;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 1rem;
             width: 100%;
-        }
-        
-        .image-preview {
-            max-width: 200px;
-            max-height: 200px;
-            display: none;
+            font-weight: 700;
+            transition: all 0.3s;
             margin-top: 1rem;
-            border: 1px solid var(--accent-color);
-            border-radius: 4px;
         }
-        
+
+        .btn:hover {
+            background-color: #a370e0;
+            transform: translateY(-2px);
+        }
+
         .bookings-list {
             background-color: var(--secondary-dark);
             padding: 2rem;
             border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        
+
+        .bookings-title {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
         .booking-item {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             margin-bottom: 1rem;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 6px;
         }
-        
+
+        .booking-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .booking-item h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-item p {
+            margin-bottom: 0.3rem;
+        }
+
         .alert {
             padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            border-radius: 6px;
             background-color: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
+            color: var(--success-color);
             display: none;
+            text-align: center;
+            font-weight: 500;
         }
-        
-        .imgr {
+
+        .facebook-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1877F2;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+            font-weight: 700;
+        }
+
+        .facebook-link:hover {
+            background-color: #166FE5;
+            transform: translateY(-3px);
+        }
+
+                .imgr {
             width: 30%;
             height: 25%;
             display: flex;
@@ -128,233 +183,173 @@
             margin-top: 10%;
             margin-bottom: 7%;
         }
-        
-        .facebook-link {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #1877f2;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .facebook-link:hover {
-            background-color: #166fe5;
-            transform: translateY(-2px);
-        }
-        
+
         .facebook-link img {
             width: 24px;
             height: 24px;
-            margin-right: 8px;
+            margin-left: 8px;
         }
-        
-        .facebook-link span {
-            font-family: Arial, sans-serif;
-            font-weight: bold;
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .form-container, .bookings-list {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-
-
     <img class="imgr" src="WhatsApp Image 2025-07-20 at 01.02.03_d3ba074e.jpg">
     <div class="container">
-        <div class="logo">نظام حجز طلبات فكتوريا</div>
-    </div>
+        <header>
+            <div class="logo">نظام حجز طلبات فكتوريا</div>
+        </header>
 
+        <main>
+            <div id="booking-form" class="form-container">
+                <h2 class="form-title">نموذج الحجز الجديد</h2>
 
-    <main class="container">
-        <div id="booking-form" class="form-container">
-            <h2 style="margin-bottom: 1rem; color: var(--accent-color);">نموذج الحجز الجديد</h2>
+                <div id="successAlert" class="alert">
+                    تم إرسال الحجز بنجاح إلى واتساب!
+                </div>
 
-            <div id="successAlert" class="alert">
-                تم إرسال الحجز بنجاح إلى واتساب!
+                <form id="newBookingForm">
+                    <div class="form-group">
+                        <label for="customerName" class="form-label">اسم العميل *</label>
+                        <input type="text" id="customerName" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone" class="form-label">رقم الجوال *</label>
+                        <input type="tel" id="customerPhone" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productName" class="form-label">اسم المنتج *</label>
+                        <input type="text" id="productName" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity" class="form-label">الكمية *</label>
+                        <input type="number" id="quantity" class="form-control" min="1" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="size" class="form-label">حجم القطعة</label>
+                        <input type="text" id="size" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes" class="form-label">ملاحظات إضافية</label>
+                        <textarea id="notes" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn">إرسال الحجز إلى واتساب</button>
+                </form>
             </div>
 
-            <form id="newBookingForm">
-                <div class="form-group">
-                    <label for="customerName" class="form-label">اسم العميل *</label>
-                    <input type="text" id="customerName" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="customerPhone" class="form-label">رقم الجوال *</label>
-                    <input type="tel" id="customerPhone" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="productName" class="form-label">اسم المنتج *</label>
-                    <input type="text" id="productName" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="quantity" class="form-label">الكمية *</label>
-                    <input type="number" id="quantity" class="form-control" min="1" value="1" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="productImage" class="form-label">صورة المنتج</label>
-                    <input type="file" id="productImage" class="form-control" accept="image/*">
-                    <img id="imagePreview" class="image-preview" alt="معاينة الصورة">
-                </div>
-
-                <div class="form-group">
-                    <label for="notes" class="form-label">ملاحظات إضافية</label>
-                    <textarea id="notes" class="form-control" rows="3"></textarea>
-                </div>
-
-                <button type="submit" class="btn">إرسال الحجز إلى واتساب</button>
-            </form>
-        </div>
-
-        <div class="bookings-list">
-            <h2 style="margin-bottom: 1rem; color: var(--accent-color);">سجل الحجوزات</h2>
-            <div id="bookingsContainer"></div>
-        </div>
-    </main>
+            <div class="bookings-list">
+                <h2 class="bookings-title">سجل الحجوزات</h2>
+                <div id="bookingsContainer"></div>
+            </div>
+        </main>
+    </div>
 
     <a href="https://www.facebook.com/share/1BwLx15Vow/?mibextid=wwXIfr" target="_blank" class="facebook-link">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook Logo">
-
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+        <span>فيسبوك</span>
     </a>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-                    const WHATSAPP_NUMBER = '7766511066'; // الرقم الثابت الذي طلبته
+            const WHATSAPP_NUMBER = '7766511066';
 
-                    // عناصر DOM
-                    const bookingForm = document.getElementById('newBookingForm');
-                    const productImage = document.getElementById('productImage');
-                    const imagePreview = document.getElementById('imagePreview');
-                    const bookingsContainer = document.getElementById('bookingsContainer');
-                    const successAlert = document.getElementById('successAlert');
+            const bookingForm = document.getElementById('newBookingForm');
+            const bookingsContainer = document.getElementById('bookingsContainer');
+            const successAlert = document.getElementById('successAlert');
 
-                    // معاينة الصورة
-                    productImage.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(event) {
-                                imagePreview.src = event.target.result;
-                                imagePreview.style.display = 'block';
-                            }
-                            reader.readAsDataURL(file);
-                        }
-                    });
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-                    // إرسال النموذج
-                    bookingForm.addEventListener('submit', function(e) {
-                        e.preventDefault();
+                const bookingData = {
+                    id: Date.now(),
+                    name: document.getElementById('customerName').value,
+                    phone: document.getElementById('customerPhone').value,
+                    product: document.getElementById('productName').value,
+                    quantity: document.getElementById('quantity').value,
+                    size: document.getElementById('size').value,
+                    notes: document.getElementById('notes').value,
+                    date: new Date().toLocaleString('ar-SA')
+                };
 
-                        // جمع بيانات النموذج
-                        const bookingData = {
-                            id: Date.now(),
-                            name: document.getElementById('customerName').value,
-                            phone: document.getElementById('customerPhone').value,
-                            product: document.getElementById('productName').value,
-                            quantity: document.getElementById('quantity').value,
-                            notes: document.getElementById('notes').value,
-                            image: imagePreview.style.display === 'block' ? imagePreview.src : null,
-                            date: new Date().toLocaleString()
-                        };
+                saveBooking(bookingData);
+                sendToWhatsApp(bookingData);
 
-                        // حفظ الحجز
-                        saveBooking(bookingData);
+                successAlert.style.display = 'block';
+                bookingForm.reset();
 
-                        // إرسال إلى واتساب
-                        sendToWhatsApp(bookingData);
+                displayBookings();
 
-                        // عرض رسالة النجاح
-                        successAlert.style.display = 'block';
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            });
 
-                        // إعادة تعيين النموذج
-                        bookingForm.reset();
-                        imagePreview.style.display = 'none';
+            function saveBooking(booking) {
+                let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+                bookings.unshift(booking);
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+            }
 
-                        // تحديث قائمة الحجوزات
-                        displayBookings();
+            function displayBookings() {
+                const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+                bookingsContainer.innerHTML = '';
 
-                        // إخفاء الرسالة بعد 3 ثواني
-                        setTimeout(() => {
-                            successAlert.style.display = 'none';
-                        }, 3000);
-                    });
+                if (bookings.length === 0) {
+                    bookingsContainer.innerHTML = '<p>لا توجد حجوزات مسجلة</p>';
+                    return;
+                }
 
-                    // حفظ الحجز في localStorage
-                    function saveBooking(booking) {
-                        let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-                        bookings.unshift(booking);
-                        localStorage.setItem('bookings', JSON.stringify(bookings));
-                    }
-
-                    // عرض الحجوزات
-                    function displayBookings() {
-                        const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-                        bookingsContainer.innerHTML = '';
-
-                        if (bookings.length === 0) {
-                            bookingsContainer.innerHTML = '<p>لا توجد حجوزات مسجلة</p>';
-                            return;
-                        }
-
-                        bookings.forEach(booking => {
-                                    const bookingItem = document.createElement('div');
-                                    bookingItem.className = 'booking-item';
-                                    bookingItem.innerHTML = `
+                bookings.forEach(booking => {
+                    const bookingItem = document.createElement('div');
+                    bookingItem.className = 'booking-item';
+                    bookingItem.innerHTML = `
                         <h3>${booking.product} (${booking.quantity})</h3>
                         <p><strong>العميل:</strong> ${booking.name}</p>
                         <p><strong>رقم الجوال:</strong> ${booking.phone}</p>
+                        ${booking.size ? `<p><strong>حجم القطعة:</strong> ${booking.size}</p>` : ''}
                         <p><strong>التاريخ:</strong> ${booking.date}</p>
                         ${booking.notes ? `<p><strong>ملاحظات:</strong> ${booking.notes}</p>` : ''}
-                        ${booking.image ? `<img src="${booking.image}" style="max-width: 100px; margin-top: 10px; border: 1px solid #555; border-radius: 4px;">` : ''}
                     `;
                     bookingsContainer.appendChild(bookingItem);
                 });
             }
 
-            // إرسال إلى واتساب
             function sendToWhatsApp(booking) {
                 let message = `*طلب حجز جديد*\n\n`;
                 message += `*العميل:* ${booking.name}\n`;
                 message += `*رقم الجوال:* ${booking.phone}\n`;
                 message += `*المنتج:* ${booking.product}\n`;
                 message += `*الكمية:* ${booking.quantity}\n`;
+                if (booking.size) message += `*حجم القطعة:* ${booking.size}\n`;
                 message += `*التاريخ:* ${booking.date}\n`;
                 message += `*ملاحظات:* ${booking.notes || 'لا توجد'}\n\n`;
                 message += `_تم إرسال هذا الطلب عبر نظام الحجوزات_`;
                 
-                const encodedMessage = encodeURIComponent(message);
-                
-                if (booking.image) {
-                    // الخطوة 1: إرسال النص أولاً
-                    const textUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-                    window.open(textUrl, '_blank');
-                    
-                    // الخطوة 2: إرسال الصورة بعد ثانيتين
-                    setTimeout(() => {
-                        const imageUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('صورة المنتج:')}`;
-                        window.open(imageUrl, '_blank');
-                    }, 2000);
-                } else {
-                    // إذا لم تكن هناك صورة، أرسل النص فقط
-                    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
-                }
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
             }
 
-            // تحميل الحجوزات عند بدء التشغيل
             displayBookings();
         });
     </script>
 </body>
-
 </html>
